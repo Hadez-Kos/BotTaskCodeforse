@@ -15,8 +15,9 @@ task = Table(
     Column("id", Integer, primary_key=True),
     Column("solution", Integer, nullable=False),
     Column("name", String, nullable=False),
-    Column("number", Integer, nullable=False),
-    Column("difficulty", Integer, nullable=False)
+    Column("number", String, nullable=False),
+    Column("difficulty", Integer, nullable=False),
+    Column("url", String, nullable=False)
 )
 
 intersection = Table(
