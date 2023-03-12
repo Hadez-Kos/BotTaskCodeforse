@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup as BS
 from config import URL_SITE
 import requests as req
-import asyncio
 from task.database import Database
 
 
@@ -63,7 +62,7 @@ async def main():
     tasks = []
 
     # читаем таблицу данных с каждой страницы, пока цикл не закончиться
-    while number_page < 2:
+    while True:
         url_site = component_url[0] + '/page/' + str(number_page) + f'?{component_url[1]}'
 
         try:
@@ -79,7 +78,3 @@ async def main():
         number_page += 1
 
     await convert_data_database(tasks)
-
-
-if __name__ == '__main__':
-    asyncio.run(main())
