@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine
-from sqlalchemy.sql import select
+from sqlalchemy import create_engine, func
+from sqlalchemy.sql import select, text
 from .models import theme, task, intersection
 from config import DB_PASS, DB_NAME, DB_USER, DB_PORT, DB_HOST
 from sqlalchemy.orm import sessionmaker
@@ -35,3 +35,34 @@ class Database:
 
         self.session.commit()
 
+    async def get_data_theme(self):
+        themes = []
+
+        for i in self.session.query(theme).distinct().all():
+            themes.append(i.name)
+
+        return list(set(themes))
+
+    async def get_data_solution(self, them):
+        solution = []
+
+        for i in self.session.execute(
+                select(task).join(intersection, task.c.id == intersection.c.task_id).join(theme,
+                                                                                          theme.c.id == intersection.c.theme_id).where(
+                    theme.c.name == them).distinct()):
+            solution.append(i.solution)
+
+        return list(set(solution))
+
+    async def get_list_tasks(self, data):
+        lst = []
+        if data['theme'] and data['solution']:
+            for i in self.session.execute(text("""select task.id, task.name, task.number, task.solution, task.url from task join intersection on task.id=intersection.task_id join theme on intersection.theme_id = theme.id 
+where theme.name = :theme and task.solution <= :solution
+group by task.id
+having count(task.id) = 1"""), data):
+
+                lst.append(f'Task: {i.name} {i.number} {i.solution} {i.url}')
+            return lst
+        else:
+            return lst

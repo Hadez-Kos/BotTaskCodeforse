@@ -1,3 +1,5 @@
+import asyncio
+
 from bs4 import BeautifulSoup as BS
 from config import URL_SITE
 import requests as req
@@ -55,7 +57,7 @@ async def get_url(url: str):
     return table_list
 
 
-async def main():
+async def main_parse():
     # зменение url страницы для чтения всех страниц
     number_page = 1
     component_url = URL_SITE.split('?')
@@ -69,10 +71,12 @@ async def main():
             table_tasks = await get_url(url_site)
         except:
             break
-
-        if table_tasks:
-            tasks += await get_offer_page(table_tasks)
-        else:
+        try:
+            if table_tasks:
+                tasks += await get_offer_page(table_tasks)
+            else:
+                break
+        except:
             break
 
         number_page += 1
