@@ -115,7 +115,7 @@ async def cmd_solution(message: types.Message):
     global request
     response = await Database().get_list_tasks(request)
     if response:
-        await message.answer("\n\n".join(response[:10]))
+        await message.answer("\n\n".join(response))
     else:
         await message.answer(
             "К сожалению таких задач нет, только если с комбинированными темами, а это улучшение будет позже"

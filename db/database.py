@@ -68,14 +68,19 @@ class Database:
         if data["theme"] and data["solution"]:
             for i in self.session.execute(
                 text(
-                    """select db.id, db.name, db.number, db.solution, db.url from db join intersection on db.id=intersection.task_id join theme on intersection.theme_id = theme.id 
-where theme.name = :theme and db.solution >= :solution
-group by db.id
-having count(db.id) = 1"""
+                    """select task.id, task.name, task.number, task.solution, task.url from task join intersection on task.id=intersection.task_id join theme on intersection.theme_id = theme.id 
+where theme.name = :theme and task.solution >= :solution
+group by task.id
+having count(task.id) = 1
+ORDER BY task.solution  DESC
+LIMIT 10"""
                 ),
                 data,
             ):
-                lst.append(f"Task: {i.name} {i.number} {i.solution} {i.url}")
+                lst.append(
+                    f"Task {i.number}:\nname: {i.name}\nsolution: {i.solution}\nurl: {i.url}"
+                )
+                lst.append("-" * 20)
             return lst
         else:
             return lst
