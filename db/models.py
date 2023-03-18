@@ -6,7 +6,7 @@ theme = Table(
     "theme",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("name", String, nullable=False)
+    Column("name", String, nullable=False),
 )
 
 task = Table(
@@ -17,13 +17,13 @@ task = Table(
     Column("name", String, nullable=False),
     Column("number", String, nullable=False),
     Column("difficulty", Integer, nullable=False),
-    Column("url", String, nullable=False)
+    Column("url", String, nullable=False),
 )
 
 intersection = Table(
     "intersection",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("task_id", Integer, ForeignKey("task.id")),
-    Column("theme_id", Integer, ForeignKey("theme.id"))
+    Column("task_id", Integer, ForeignKey("db.id")),
+    Column("theme_id", Integer, ForeignKey("theme.id")),
 )
