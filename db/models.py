@@ -10,7 +10,7 @@ theme = Table(
 )
 
 task = Table(
-    "db",
+    "task",
     metadata,
     Column("id", Integer, primary_key=True),
     Column("solution", Integer, nullable=False),

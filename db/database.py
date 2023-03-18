@@ -78,7 +78,7 @@ LIMIT 10"""
                 data,
             ):
                 lst.append(
-                    f"Task {i.number}:\nname: {i.name}\nsolution: {i.solution}\nurl: {i.url}"
+                    f"Task: {i.number}\nname: {i.name}\nsolution: {i.solution}\nurl: {i.url}"
                 )
                 lst.append("-" * 20)
             return lst
